@@ -28,7 +28,7 @@ public class RealAlleleSet extends AlleleSet {
 
   /**
    * Constructor
-   * @param GA A GA object in order to access random generators
+   * @param engine The random engine for this FA
    * @param mn The minimum real value in the allele set
    * @param mx The maximum real value in the allele set
    */

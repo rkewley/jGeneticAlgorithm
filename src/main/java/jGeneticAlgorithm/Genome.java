@@ -7,6 +7,7 @@ package jGeneticAlgorithm;
  * @version 1.0
  */
 
+import java.io.Serializable;
 import java.lang.*;
 import cern.jet.random.engine.RandomEngine;
 import cern.jet.random.Uniform;
@@ -57,6 +58,11 @@ public abstract class Genome implements Cloneable, Comparable {
    * The fitness rank of the genome.
    */
   protected int rank = 0;
+
+  /**
+   * A vector user to store fitness values from different objective functions
+   */
+  protected double[] multiObjectiveFitness;
 
   /**
    * Set to 1 if this genome seeks to minimize its fitness.  Default it maximize.
@@ -111,6 +117,8 @@ public abstract class Genome implements Cloneable, Comparable {
    * This method compares this genome to another genome passed in as an
    * Object.  If the Genome passed in is more fit, it returns a 1.  Otherwise
    * it returns a -1.
+   * @param o The object to be compared
+   * @return 1 if the genome passed in is more fit, -1 if it is not
    */
   public int compareTo(Object o) {
     int r;    // The return value
@@ -140,6 +148,7 @@ public abstract class Genome implements Cloneable, Comparable {
   /**
    * Returns a boolean value indicating whether or not the genome has been
    * been evaluated.
+   * @return Returns true if this genome has been evaluated
    */
   public boolean getIsEvaluated() {
     return isEvaluated;
@@ -158,17 +167,20 @@ public abstract class Genome implements Cloneable, Comparable {
   /**
    * Subordinate classes must declare a method which creates a deep copy
    * of the Genome.
+   * @throws CloneNotSupportedException
    */
   public abstract Genome copy() throws CloneNotSupportedException;
 
   /**
    * Subordinate classes must declare a method to perform crossover.
+   * @param dad The genome with which to perform crossover
    */
   public abstract Genome[] crossWith (Genome dad);
 
   /**
    * Sets the rank of a genome.
    * @param r The positive integer rank of the genome with 1 being most fit.
+   * @throws GAException
    */
   public void setRank(int r) throws GAException {
     if (r <= 0) {
@@ -180,6 +192,7 @@ public abstract class Genome implements Cloneable, Comparable {
 
   /**
    * Returns the fitness rank of the genome with 1 being the most fit.
+   * @return The fitness rank of the genome with 1 being the most  fie
    */
   public int getRank() {
     return rank;
@@ -188,6 +201,7 @@ public abstract class Genome implements Cloneable, Comparable {
   /**
    * Sets the number of children to produce when performing crossover.
    * @param n The number of children to produce
+   * @throws GAException
    */
   public void setNumChildren(int n) throws GAException {
     if (n <= 0) {
@@ -199,6 +213,7 @@ public abstract class Genome implements Cloneable, Comparable {
 
   /**
    * Returns the the number of children to produce when performing crossover.
+   * @return The number of children
    */
   public int getNumChildren() {
     return numChildren;
@@ -207,6 +222,7 @@ public abstract class Genome implements Cloneable, Comparable {
   /**
    * Sets the mutation rate for the genome.
    * @param r The mutation rate must be between 0 and 1.
+   * @throws GAException
    */
   public void setMutationRate(double r) throws GAException {
     if (r < 0 || r > 1) {
@@ -218,6 +234,7 @@ public abstract class Genome implements Cloneable, Comparable {
 
   /**
    * Returns the mutation rate of the genome.
+   * @return The mutation rate
    */
   public double getMutationRate() {
     return mutationRate;
@@ -225,6 +242,7 @@ public abstract class Genome implements Cloneable, Comparable {
 
   /**
    * Returns a string description of this object's parameters
+   * @return A string describing the GA parameters
    */
   public String describeParameters() {
     String description;

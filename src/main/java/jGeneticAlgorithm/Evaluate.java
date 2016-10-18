@@ -21,6 +21,7 @@ public interface Evaluate {
    * different species may be evaluated in a competitive environment.
    * Furthermore, each species may contain subpopulations which evolve
    * independently and are subject to migration.
+   * @param species A vector of genomes in the species to evaluate
    */
-  public void evaluate(Vector species);
+  public void evaluate(Vector<Genome> species);
 }

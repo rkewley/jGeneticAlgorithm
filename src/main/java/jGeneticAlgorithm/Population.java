@@ -25,7 +25,20 @@ public class Population implements Cloneable {
   /**
    * Vector of genomes for this population
    */
-  Vector genomes;
+  Vector<Genome> genomes;
+
+  public Vector<Genome> getArchive() {
+    return archive;
+  }
+
+  public void setArchive(Vector<Genome> archive) {
+    this.archive = archive;
+  }
+
+  /**
+   * Vector of archived best genomes for this population
+   */
+  Vector<Genome> archive;
 
   /**
    * A random number generator from the cern.jet.random.engine library.
@@ -63,6 +76,41 @@ public class Population implements Cloneable {
    * new generation
    */
   double replacementRate = 1.0;
+
+  /**
+   * The number of best ever genomes to keep in the archive
+   */
+  int archiveSize = 0;
+
+  public double getArchiveReplacementRate() {
+    return archiveReplacementRate;
+  }
+
+  public void setArchiveReplacementRate(double archiveReplacementRate) {
+    if (archiveReplacementRate > replacementRate) {
+      archiveReplacementRate = replacementRate;
+    }
+    this.archiveReplacementRate = archiveReplacementRate;
+  }
+
+  /**
+   * The fraction of the new population to be formed by copying the best genomes from the archive
+   * Note that archiveReplacementRate cannot be greater than replacementRate
+   */
+  double archiveReplacementRate = 0.0;
+
+  public ArchiveUpdater getArchiveUpdater() {
+    return archiveUpdater;
+  }
+
+  public void setArchiveUpdater(ArchiveUpdater archiveUpdater) {
+    this.archiveUpdater = archiveUpdater;
+  }
+
+  /**
+   * The archive updater for this population
+   */
+  ArchiveUpdater archiveUpdater = new EliteArchiveUpdater();
 
   /**
    * The best genome evaluated in this population so far
@@ -126,6 +174,17 @@ public class Population implements Cloneable {
           "The replacement rate for a population must be between 0 and 1.");
     }
     replacementRate = r;
+    if (archiveReplacementRate > replacementRate) {
+      archiveReplacementRate = replacementRate;
+    }
+  }
+
+  public int getArchiveSize() {
+    return archiveSize;
+  }
+
+  public void setArchiveSize(int archiveSize) {
+    this.archiveSize = archiveSize;
   }
 
   /**
@@ -295,6 +354,8 @@ public class Population implements Cloneable {
       g.rank = i;
     }
 
+    // Updaate the archive
+
     // update the best genome
     try {
       if (best == null) {
@@ -384,6 +445,22 @@ public class Population implements Cloneable {
       //System.out.println("Copying a survivor");
       try {
         nextGeneration.addElement(survivor.copy());
+      }
+      catch (CloneNotSupportedException e) {
+        System.out.println(e.getMessage());
+        e.printStackTrace();
+        System.exit(1);
+      }
+    }
+
+
+    // copy a fraction of the archive (archiveReplacementRate) to the next generation
+    int numReplacers = (int)(genomes.size() * archiveReplacementRate);
+    for (i = 0; i < numReplacers; i++) {
+      Genome replacer = (Genome)archive.elementAt(i);
+      //System.out.println("Copying a replacer");
+      try {
+        nextGeneration.addElement(replacer.copy());
       }
       catch (CloneNotSupportedException e) {
         System.out.println(e.getMessage());

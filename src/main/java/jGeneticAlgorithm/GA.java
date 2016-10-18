@@ -84,6 +84,11 @@ public class GA {
     generation = 1;
   }
 
+  /**
+  * Sets the number of generations for the GA
+  * @param numberGenerations The number of generations
+   * @throws GAException
+  */
   public void setNumGenerations(int numberGenerations) throws GAException {
     if (numberGenerations < 0) {
       throw new GAException(
@@ -92,6 +97,10 @@ public class GA {
     numGenerations = numberGenerations;
   }
 
+  /**
+   *
+   * @return The number of generations for the FA
+     */
   public int getNumGenerations() {
     return numGenerations;
   }
@@ -105,6 +114,7 @@ public class GA {
 
   /**
    * This method tells all species to have all populations evolve the next generation
+   * @throws GAException
    */
   public void evolveAllSpecies() throws GAException {
     Enumeration enu = species.elements();
@@ -128,6 +138,7 @@ public class GA {
   /**
    * This method steps the algorithm by performing evaluation, evolution, and migration
    * in succession
+   * @throws GAException
    */
   public void stepGeneration() throws GAException {
     this.evaluate();
@@ -136,6 +147,10 @@ public class GA {
     generation++;
   }
 
+  /**
+   *
+   * @return The number of generations for the hGA
+     */
   public int getGeneration() {
     return generation;
   }
@@ -152,6 +167,7 @@ public class GA {
   /**
    * This method evolves the algorithm until the numberGenerations stopping
    * criterion is met
+   * @throws GAException
    */
   public void evolve() throws GAException {
     while (generation < numGenerations) {
@@ -159,6 +175,10 @@ public class GA {
     }
   }
 
+  /**
+   *
+   * @return A vector of species for the GA
+     */
   public Vector getSpecies() {
     return species;
   }

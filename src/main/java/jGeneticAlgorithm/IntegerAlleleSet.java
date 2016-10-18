@@ -29,9 +29,10 @@ public  class IntegerAlleleSet extends AlleleSet {
 
   /**
    * Constructor
-   * @param GA A GA object in order to access random generators
+   * @param engine The random engine for this allele set
    * @param mn The minimum integer value in the allele set
    * @param mx The maximum interger value in the allele set
+   * @throws GAException
    */
   public IntegerAlleleSet(RandomEngine engine, int mn, int mx) throws GAException {
     super(engine);
@@ -46,6 +47,7 @@ public  class IntegerAlleleSet extends AlleleSet {
 
   /**
    * Returns a uniformly distributed IntegerAlleleValue from min to max
+   * @return An integer allele value between min and max
    */
   public AlleleValue getRandomValue() {
     return new IntegerAlleleValue(uniform.nextIntFromTo(min, max));
@@ -53,6 +55,7 @@ public  class IntegerAlleleSet extends AlleleSet {
 
   /**
    * Returns a string description of this object
+   * @return A string describing the parameters
    */
   public String describeParameters() {
     return "Range: " + Integer.toString(min) + " "
@@ -61,6 +64,7 @@ public  class IntegerAlleleSet extends AlleleSet {
 
   /**
    * Returns debugging information about this object
+   * @return A debugging string
    */
   public String debug() {
     return super.toString() + "  " + this.describeParameters();

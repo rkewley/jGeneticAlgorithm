@@ -1,4 +1,4 @@
-name := "jGeneticAlgorith"
+name := "jGeneticAlgorithm"
 
 organization := "DMF"
 

@@ -29,6 +29,19 @@ public class TournamentSelector extends Selector {
    */
   Uniform uniform;
 
+  public boolean isSelectFromArchive() {
+    return selectFromArchive;
+  }
+
+  public void setSelectFromArchive(boolean selectFromArchive) {
+    this.selectFromArchive = selectFromArchive;
+  }
+
+  /**
+   * Set to true in order to select from the archive instead of the genome list
+   */
+  boolean selectFromArchive = false;
+
   /**
    * Constructor
    * @param e A RanomEngine object from the cern.jet.random.engine library
@@ -77,7 +90,11 @@ public class TournamentSelector extends Selector {
     int i;
 
     selectedGenomes = new Vector(numberInTournament);
-    genomes = p.getGenomes();
+    if (selectFromArchive) {
+      genomes = p.getArchive();
+    } else {
+      genomes = p.getGenomes();
+    }
     maxIndex = genomes.size() - 1;
 
     for (i = 0; i < numberInTournament; i++) {

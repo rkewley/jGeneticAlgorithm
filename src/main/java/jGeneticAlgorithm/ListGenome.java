@@ -43,7 +43,7 @@ public class ListGenome extends Genome {
    * @param engine A RandomEngine from the ern.jet.random.engine library
    * @param minimumValues The minimum number of allele values on the genome (used for initialization)
    * @param maximumValues The maximum number of allele values on the genome (used for initialization)
-   * @param allels An allele set of possible allele values for each position on the genome
+   * @param alleles An allele set of possible allele values for each position on the genome
    */
   public ListGenome(RandomEngine engine, int minimumValues, int maximumValues, AlleleSet alleles) {
     super(engine);
